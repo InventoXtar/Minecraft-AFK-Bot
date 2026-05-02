@@ -1,4 +1,4 @@
-name: Minecraft AFK Bot
+name: Minecraft Bot Two Stage Run
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  bot:
+  job1:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,5 +21,156 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Run bot
-        run: node bot.js
+      - name: Run bot (48 times)
+        run: |
+          for i in {1..50}
+          do
+            echo "🚀 Job1 Run $i"
+            timeout 3600 node bot.js
+          done
+
+  job2:
+    runs-on: ubuntu-latest
+    needs: job1   # 🔥 THIS makes job2 wait for job1
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run bot (48 times)
+        run: |
+          for i in {1..50}
+          do
+            echo "🚀 Job2 Run $i"
+            timeout 3600 node bot.js
+          done
+  job3:
+    runs-on: ubuntu-latest
+    needs: job2   # 🔥 THIS makes job2 wait for job1
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run bot (48 times)
+        run: |
+          for i in {1..50}
+          do
+            echo "🚀 Job2 Run $i"
+            timeout 3600 node bot.js
+          done
+
+  job4:
+    runs-on: ubuntu-latest
+    needs: job3   # 🔥 THIS makes job2 wait for job1
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run bot (48 times)
+        run: |
+          for i in {1..50}
+          do
+            echo "🚀 Job2 Run $i"
+            timeout 3600 node bot.js
+          done
+
+  job5:
+    runs-on: ubuntu-latest
+    needs: job4   # 🔥 THIS makes job2 wait for job1
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run bot (48 times)
+        run: |
+          for i in {1..50}
+          do
+            echo "🚀 Job2 Run $i"
+            timeout 3600 node bot.js
+          done
+
+
+  job6:
+    runs-on: ubuntu-latest
+    needs: job5   # 🔥 THIS makes job2 wait for job1
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run bot (48 times)
+        run: |
+          for i in {1..50}
+          do
+            echo "🚀 Job2 Run $i"
+            timeout 3600 node bot.js
+          done
+
+
+
+  job7:
+    runs-on: ubuntu-latest
+    needs: job6   # 🔥 THIS makes job2 wait for job1
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run bot (48 times)
+        run: |
+          for i in {1..50}
+          do
+            echo "🚀 Job2 Run $i"
+            timeout 3600 node bot.js
+          done
