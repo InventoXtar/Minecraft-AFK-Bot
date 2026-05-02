@@ -5,7 +5,7 @@ let bot;
 let phase = 0;
 
 const STEP_INTERVAL = 1500;
-const RUN_TIME = 6 * 60 * 1000; // 6 minutes safe window
+const RUN_TIME = 6 * 60 * 1000; // 6 minutes
 
 function startBot() {
   bot = mineflayer.createBot({
@@ -26,9 +26,9 @@ function startBot() {
 
     movementLoop();
 
-    // auto shutdown before Actions kills it
+    // 🔁 ONLY ONE restart timer (correct place)
     setTimeout(() => {
-      console.log("🔁 Restart cycle");
+      console.log("🔁 Cycle restart...");
       shutdown();
     }, RUN_TIME);
   });
