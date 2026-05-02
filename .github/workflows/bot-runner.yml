@@ -1,126 +1,24 @@
-name: Run Bot 10 Times
+name: Minecraft Bot Loop
 
 on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
-  job1:
+  bot:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-      - run: npm install
-      - run: node bot.js &
-      - run: sleep 18000
 
-  job2:
-    runs-on: ubuntu-latest
-    needs: job1
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-      - run: npm install
-      - run: node bot.js &
-      - run: sleep 18000
+      - uses: actions/checkout@v4
 
-  job3:
-    runs-on: ubuntu-latest
-    needs: job2
-    steps:
-      - uses: actions/checkout@v3
       - uses: actions/setup-node@v4
         with:
-          node-version: '18'
-      - run: npm install
-      - run: node bot.js &
-      - run: sleep 18000
+          node-version: 18
 
-  job4:
-    runs-on: ubuntu-latest
-    needs: job3
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-      - run: npm install
-      - run: node bot.js &
-      - run: sleep 18000
+      - name: Install deps
+        run: npm install
 
-  job5:
-    runs-on: ubuntu-latest
-    needs: job4
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-      - run: npm install
-      - run: node bot.js &
-      - run: sleep 18000
-
-  job6:
-    runs-on: ubuntu-latest
-    needs: job5
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-      - run: npm install
-      - run: node bot.js &
-      - run: sleep 18000
-
-  job7:
-    runs-on: ubuntu-latest
-    needs: job6
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-      - run: npm install
-      - run: node bot.js &
-      - run: sleep 18000
-
-  job8:
-    runs-on: ubuntu-latest
-    needs: job7
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-      - run: npm install
-      - run: node bot.js &
-      - run: sleep 18000
-
-  job9:
-    runs-on: ubuntu-latest
-    needs: job8
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-      - run: npm install
-      - run: node bot.js &
-      - run: sleep 18000
-
-  job10:
-    runs-on: ubuntu-latest
-    needs: job9
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-      - run: npm install
-      - run: node bot.js &
-      - run: sleep 18000
+      - name: Run bot (controlled runtime)
+        run: node bot.js
