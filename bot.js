@@ -1,9 +1,7 @@
 const mineflayer = require('mineflayer');
-const mcDataLoader = require('minecraft-data');
 const config = require('./config.json');
 
 let bot;
-let mcData;
 let currentState = 'idle';
 let lastChatTime = Date.now();
 
@@ -100,70 +98,7 @@ function chooseState() {
   return 'idle';
 }
 
-// ------------------ inventory ------------------
-function randomInventory() {
-  bot.openInventory();
-
-  setTimeout(() => {
-    if (bot.currentWindow) {
-      bot.closeWindow(bot.currentWindow);
-    }
-  }, rand(1000, 4000));
-}
-
-// ------------------ chest ------------------
-function getNearbyChest() {
-  return bot.findBlock({
-    matching: block => block.name.includes('chest'),
-    maxDistance: 6
-  });
-}
-
-async function interactWithChest() {
-  try {
-    const chestBlock = getNearbyChest();
-    if (!chestBlock) return;
-
-    bot.lookAt(chestBlock.position);
-
-    bot.setControlState('forward', true);
-    await sleep(rand(500, 1200));
-    bot.setControlState('forward', false);
-
-    await sleep(rand(800, 2000));
-
-    const chest = await bot.openChest(chestBlock);
-
-    const chestItems = chest.containerItems();
-    const invItems = bot.inventory.items();
-
-    if (Math.random() < 0.3) {
-      await sleep(rand(1000, 3000));
-      chest.close();
-      return;
-    }
-
-    const moves = rand(1, 3);
-
-    for (let i = 0; i < moves; i++) {
-      if (Math.random() < 0.5 && chestItems.length > 0) {
-        const item = chestItems[Math.floor(Math.random() * chestItems.length)];
-        await chest.withdraw(item.type, null, 1);
-      } else if (invItems.length > 0) {
-        const item = invItems[Math.floor(Math.random() * invItems.length)];
-        await chest.deposit(item.type, null, 1);
-      }
-
-      await sleep(rand(400, 1200));
-    }
-
-    await sleep(rand(1000, 3000));
-    chest.close();
-
-  } catch {}
-}
-
-// ------------------ behavior ------------------
+// ------------------ main behavior ------------------
 function performAction() {
   if (!bot?.entity) return;
 
@@ -175,10 +110,7 @@ function performAction() {
 
   maybeChat();
 
-  if (Math.random() < 0.02) randomInventory();
-
-  if (Math.random() < 0.02) interactWithChest();
-
+  // subtle human-like actions
   if (Math.random() < 0.08) {
     bot.setControlState('sneak', true);
     setTimeout(() => bot.setControlState('sneak', false), rand(1000, 4000));
@@ -239,7 +171,6 @@ function startBot() {
   bot.on('spawn', () => {
     console.log("✅ Bot spawned");
 
-    mcData = mcDataLoader(bot.version);
     currentState = chooseState();
     lastChatTime = Date.now();
 
@@ -251,6 +182,7 @@ function startBot() {
     }, RUN_TIME);
   });
 
+  // join message (delayed + realistic)
   bot.on('playerJoined', async (player) => {
     if (!player || player.username === bot.username) return;
 
